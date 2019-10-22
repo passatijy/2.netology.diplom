@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from datamongo import mk_mongodb, clear_db, find_by_name
 import time
 import json
+import pprint
 
 # > docker run -d -p 27017:27017 --name mongodb -v C:\Users\test\Projects\netology\2.Diplom\vkmongodb mongo
 # 
@@ -194,23 +195,26 @@ def top_recommended(dbname):
     return result
 
 def compile_output(dbname, top_list):
-    myjson = {}
+    myjson = []
     for user in top_list:
-        myjson['id'] = user
-        myjson['id']['first_name'] = work_db.users_col.find_one({'id':user})['first_name']
-        myjson['id']['last_name'] = work_db.users_col.find_one({'id':user})['last_name']
-        myjson['id']['photos'] = work_db.users_col.find_one({'id':user})['photos']
+        mytempjson = {}
+        photos_short =[]
+        mytempjson['id'] = user
+        mytempjson['first_name'] = work_db.users_col.find_one({'id':user})['first_name']
+        mytempjson['last_name'] = work_db.users_col.find_one({'id':user})['last_name']
+        mytempjson['photos'] = work_db.users_col.find_one({'id':user})['photos']
+        myjson.append(mytempjson)
     return myjson
 
 
 login = 'NetologyPythonVk@yandex.ru'
-password = ''
+password = 'dogsheart'
 #my id: 552934290
 
 if __name__ == '__main__':
 # wall_get(login, password)
     work_db = set_environment()
-
+    '''
     count = update_offset(work_db)
     my_user = users_get(login, password, '552934290')
     long_user_list = []
@@ -226,30 +230,31 @@ if __name__ == '__main__':
     else:
         print('My own user not exist, adding in database')
         work_db.users_col.insert(my_user[0][0])
-
-    filling_base(work_db, 'users_col', long_user_list)
-
-    #show_coll(work_db, 'users_col')
-
-    find_like_value(552934290, work_db, 'users_col', 'groups', 9)
+    '''
+    ##filling_base(work_db, 'users_col', long_user_list)
 
     #show_coll(work_db, 'users_col')
 
-    find_like_value(552934290, work_db, 'users_col', 'friends', 11)
+    ##find_like_value(552934290, work_db, 'users_col', 'groups', 9)
+
+    #show_coll(work_db, 'users_col')
+
+    ##find_like_value(552934290, work_db, 'users_col', 'friends', 11)
 
 
     #show_coll(work_db, 'users_col')
 
     rec_users = top_recommended(work_db)
 
-    for user in rec_users:
-        photos = get_photos(login, password, user)
-        insert_photos_todb(work_db, user, photos)
-'''
+    ##for user in rec_users:
+    ##    photos = get_photos(login, password, user)
+    ##    insert_photos_todb(work_db, user, photos)
+
     data = compile_output(work_db, rec_users)
-    with open('output.json', 'w') as outfile:
+    with open('output.json', 'w', encoding='UTF8') as outfile:
             json.dump(data, outfile)
-'''
+    pprint.pprint(data)
+
 
 
 
