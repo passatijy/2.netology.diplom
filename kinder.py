@@ -208,13 +208,13 @@ def compile_output(dbname, top_list):
 
 
 login = 'NetologyPythonVk@yandex.ru'
-password = 'dogsheart'
+password = ''
 #my id: 552934290
 
 if __name__ == '__main__':
 # wall_get(login, password)
     work_db = set_environment()
-    '''
+
     count = update_offset(work_db)
     my_user = users_get(login, password, '552934290')
     long_user_list = []
@@ -230,25 +230,25 @@ if __name__ == '__main__':
     else:
         print('My own user not exist, adding in database')
         work_db.users_col.insert(my_user[0][0])
-    '''
-    ##filling_base(work_db, 'users_col', long_user_list)
+
+    filling_base(work_db, 'users_col', long_user_list)
 
     #show_coll(work_db, 'users_col')
 
-    ##find_like_value(552934290, work_db, 'users_col', 'groups', 9)
+    find_like_value(552934290, work_db, 'users_col', 'groups', 9)
 
     #show_coll(work_db, 'users_col')
 
-    ##find_like_value(552934290, work_db, 'users_col', 'friends', 11)
+    find_like_value(552934290, work_db, 'users_col', 'friends', 11)
 
 
     #show_coll(work_db, 'users_col')
 
     rec_users = top_recommended(work_db)
 
-    ##for user in rec_users:
-    ##    photos = get_photos(login, password, user)
-    ##    insert_photos_todb(work_db, user, photos)
+    for user in rec_users:
+        photos = get_photos(login, password, user)
+        insert_photos_todb(work_db, user, photos)
 
     data = compile_output(work_db, rec_users)
     with open('output.json', 'w', encoding='UTF8') as outfile:
